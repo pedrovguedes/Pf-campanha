@@ -134,6 +134,19 @@ function validateEmail(email) {
   return /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/.test(email);
 }
 
+function normalizeSpaces(value) {
+  return value.replace(/\s+/g, ' ').trim();
+}
+
+function validateName(nome) {
+  var clean = normalizeSpaces(nome);
+  var partes = clean.split(' ').filter(Boolean);
+  if (partes.length < 2) return false;
+  return partes.every(function(parte) {
+    return /^[A-Za-zÀ-ÖØ-öø-ÿ'’-]{2,}$/.test(parte);
+  });
+}
+
 function validatePhone(tel) {
   var digits = tel.replace(/\D/g, '');
   /* Celular com DDD: 10 dígitos (fixo) ou 11 dígitos (celular) */
@@ -149,42 +162,60 @@ function validatePhone(tel) {
 
 
 function validateCEP(cep) {
-  return /^\d{5}-?\d{3}$/.test(cep);
+  return /^\d{5}-\d{3}$/.test(cep);
 }
 
 function validateRua(rua) {
-  return rua.length >= 3;
+  var clean = normalizeSpaces(rua);
+  return clean.length >= 3 && /[A-Za-zÀ-ÖØ-öø-ÿ]/.test(clean);
+}
+
+function validateNumero(numero) {
+  var clean = normalizeSpaces(numero).toUpperCase();
+  return /^(\d{1,6}[A-Z]?)$/.test(clean) || clean === 'S/N' || clean === 'SN';
+}
+
+function validateBairro(bairro) {
+  var clean = normalizeSpaces(bairro);
+  return clean.length >= 2 && /[A-Za-zÀ-ÖØ-öø-ÿ]/.test(clean);
 }
 
 function handleSign() {
   clearErrors();
   var ok = true;
 
-  var nome = document.getElementById('nome').value.trim();
-  var tel = document.getElementById('tel').value.trim();
-  var mail = document.getElementById('mail').value.trim();
-  var rua = document.getElementById('rua').value.trim();
-  var numero = document.getElementById('numero').value.trim();
-  var cep = document.getElementById('cep').value.trim();
+  var nome = normalizeSpaces(document.getElementById('nome').value);
+  var tel = normalizeSpaces(document.getElementById('tel').value);
+  var mail = normalizeSpaces(document.getElementById('mail').value).toLowerCase();
+  var rua = normalizeSpaces(document.getElementById('rua').value);
+  var numero = normalizeSpaces(document.getElementById('numero').value).toUpperCase();
+  var cep = normalizeSpaces(document.getElementById('cep').value);
 
-  if (!nome) { showError('nome','erroNome'); ok = false; }
+  if (!validateName(nome)) { showError('nome','erroNome'); ok = false; }
 
   if (!tel || !validatePhone(tel)) { showError('tel','erroTel'); ok = false; }
 
   if (!mail || !validateEmail(mail)) { showError('mail','erroMail'); ok = false; }
 
-  if (!rua || !validateRua(rua) || !numero) {
+  if (!rua || !validateRua(rua) || !numero || !validateNumero(numero)) {
     showError('rua','erroRua');
-    if (!numero) document.getElementById('numero').classList.add('error');
+    if (!validateNumero(numero)) document.getElementById('numero').classList.add('error');
     ok = false;
   }
 
-  var bairro = document.getElementById('bairro').value.trim();
-  if (!bairro) { showError('bairro','erroBairro'); ok = false; }
+  var bairro = normalizeSpaces(document.getElementById('bairro').value);
+  if (!validateBairro(bairro)) { showError('bairro','erroBairro'); ok = false; }
 
   if (!cep || !validateCEP(cep)) { showError('cep','erroCep'); ok = false; }
 
   if (!ok) return;
+
+  document.getElementById('nome').value = nome;
+  document.getElementById('mail').value = mail;
+  document.getElementById('rua').value = rua;
+  document.getElementById('numero').value = numero;
+  document.getElementById('cep').value = cep;
+  document.getElementById('bairro').value = bairro;
 
   var complemento = document.getElementById('complemento').value.trim();
   var bairroVal = bairro;
