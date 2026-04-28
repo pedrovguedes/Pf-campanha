@@ -100,8 +100,11 @@
           <input id="bairro" class="form-input" type="text" placeholder="Bairro (preenchido pelo CEP)" autocomplete="off" name="neighborhood" readonly />
           <span class="field-error" id="erroBairro">Bairro é preenchido automaticamente pelo CEP</span>
 
-            <div class="endereco-row">
-                <input id="rua" class="form-input" type="text" placeholder="Rua / Av. / Travessa..." autocomplete="street-address" name="street-address" />
+            <div class="endereco-row" style="position:relative;">
+                <div style="position:relative;flex:1;">
+                  <input id="rua" class="form-input" type="text" placeholder="Rua / Av. / Travessa... (sugestões automáticas)" autocomplete="off" name="street-address" />
+                  <ul id="autocomplete-list" class="autocomplete-list"></ul>
+                </div>
                 <input id="numero" class="form-input" type="text" placeholder="Nº" name="address-number" />
             </div>
           <span class="field-error" id="erroRua">Informe rua e número válido (ex: 123, 12A ou S/N)</span>
