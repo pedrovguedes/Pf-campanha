@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agentes da PF pedem para cidadão retirar faixa de 'ladrão' em cidade que ia receber Lula</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="toast" id="toast">✅ Assinatura registrada com sucesso!</div>
+
+  <section class="hero">
+    <nav>
+      <div class="nav-logo">
+        <span class="first">Felipe</span>
+        <span class="last">Barros</span>
+      </div>
+      <button class="nav-cta" onclick="document.getElementById('nome').focus()">Assinar</button>
+    </nav>
+
+    <div class="hero-body">
+      <div class="hero-left">
+
+        
+        <div class="badge">
+          <span class="badge-dot"></span>
+          <span>Censura não</span>
+        </div>
+
+        <h1 class="headline">
+          <strong>Agentes da PF pedem</strong> para cidadão retirar faixa de <em>'ladrão' </em> em cidade que ia receber Lula
+        </h1>
+
+        <p class="subtext">
+         Um empresário foi “coagido” por agentes federais por simplesmente pendurar uma faixa na porta de sua PROPRIEDADE PRIVADA! 
+        <br><br>
+        Isso levanta uma pergunta importante: até onde vai o direito de se expressar dentro da própria casa?
+        Agora, pessoas de todo o país estão recebendo em casa faixas com mensagens de manifestação — de forma simples, legal e organizada.
+        <br><br>
+        Faça parte dessa campanha nacional e receber a sua também?
+        </p>
+
+        <div class="materia-box" aria-label="Trecho da matéria">
+          <div class="materia-cover" role="img" aria-label="Capa da matéria"></div>
+          <div class="materia-content">
+            <p class="materia-kicker">Resumo da matéria</p>
+            <h2>Trecho</h2>
+            <p>
+              Durante a preparação para uma agenda política, um cidadão relatou que foi abordado por agentes da PF para retirar uma faixa com crítica política colocada em propriedade privada. O episódio gerou repercussão e reacendeu o debate sobre liberdade de expressão, direito de manifestação e limites de atuação do Estado em espaços particulares.
+            </p>
+            <a class="materia-link" href="https://revistaoeste.com/politica/agentes-da-pf-pedem-para-cidadao-retirar-faixa-de-ladrao-em-cidade-que-ia-receber-lula/" target="_blank" rel="noopener noreferrer">Ler a matéria inteira</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="card-header">
+          <div class="card-live">
+            <span class="card-live-dot"></span>
+            Assine agora
+          </div>
+          <div class="card-title">Participe da nossa campanha</div>
+          <div class="card-desc">
+            Precisamos de <strong>10.000 assinaturas</strong> para protocolar a solicitação.
+          </div>
+        </div>
+
+        <div class="live-count-display">
+          <div class="live-num" id="liveNum">0</div>
+          <div class="live-pessoas">pessoas já assinaram</div>
+          <div class="remaining-text" id="remainingText">Faltam 10.000 para a meta</div>
+        </div>
+
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+
+        <div class="progress-info">
+          <span class="progress-pct" id="progressPct">0%</span>
+          <span class="progress-count" id="progressCount">0 <span>/ Meta: 10.000</span></span>
+        </div>
+
+        <form class="form-fields" id="formAssinar" autocomplete="on" onsubmit="event.preventDefault(); handleSign();">
+          <input id="nome" class="form-input" type="text" placeholder="Seu nome completo" autocomplete="name" name="name" />
+          <span class="field-error" id="erroNome">Informe seu nome completo</span>
+
+          <input id="tel" class="form-input" type="tel" placeholder="WhatsApp com DDD (ex: 11 9 9999-9999)" autocomplete="tel" name="phone" maxlength="16" />
+          <span class="field-error" id="erroTel">Informe um celular válido com DDD (ex: 11 9 9999-9999)</span>
+
+          <input id="mail" class="form-input" type="email" placeholder="Seu melhor e-mail" autocomplete="email" name="email" />
+          <span class="field-error" id="erroMail">Informe um e-mail válido (ex: nome@email.com)</span>
+
+          <input id="cep" class="form-input" type="text" placeholder="CEP (00000-000)" maxlength="9" autocomplete="postal-code" name="postal-code" />
+          <span class="field-error" id="erroCep">Informe um CEP válido (00000-000)</span>
+
+          <input id="bairro" class="form-input" type="text" placeholder="Bairro (preenchido pelo CEP)" autocomplete="off" name="neighborhood" readonly />
+          <span class="field-error" id="erroBairro">Bairro é preenchido automaticamente pelo CEP</span>
+
+            <div class="endereco-row">
+                <input id="rua" class="form-input" type="text" placeholder="Rua / Av. / Travessa..." autocomplete="street-address" name="street-address" />
+                <input id="numero" class="form-input" type="text" placeholder="Nº" name="address-number" />
+            </div>
+          <span class="field-error" id="erroRua">Informe o endereço e o número</span>
+
+            <input id="complemento" class="form-input" type="text" placeholder="Apartamento, bloco, casa (opcional)" autocomplete="address-line2" name="address-line2" />
+
+          <button class="btn-sign" type="submit">Assinar agora</button>
+        </form>
+
+        <div class="form-footer">
+          <span>Leva menos de 1 minuto</span>
+          <span>Seus dados estão protegidos conforme a LGPD</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
