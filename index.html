@@ -104,9 +104,10 @@
                 <input id="rua" class="form-input" type="text" placeholder="Rua / Av. / Travessa..." autocomplete="street-address" name="street-address" />
                 <input id="numero" class="form-input" type="text" placeholder="Nº" name="address-number" />
             </div>
-          <span class="field-error" id="erroRua">Informe o endereço e o número</span>
+          <span class="field-error" id="erroRua">Informe rua e número válido (ex: 123, 12A ou S/N)</span>
 
-            <input id="complemento" class="form-input" type="text" placeholder="Apartamento, bloco, casa (opcional)" autocomplete="address-line2" name="address-line2" />
+            <input id="complemento" class="form-input" type="text" placeholder="Apartamento, bloco ou casa (ex: Apto 42, Casa 3)" autocomplete="address-line2" name="address-line2" />
+          <span class="field-error" id="erroComplemento">Informe apartamento, bloco ou casa</span>
 
           <button class="btn-sign" type="submit">Assinar agora</button>
         </form>
