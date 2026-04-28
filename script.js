@@ -82,6 +82,64 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  /* Autocomplete de endereço via OpenStreetMap (Nominatim) */
+  var ruaInput = document.getElementById('rua');
+  var autocompleteTimer;
+  var autocompleteList = document.getElementById('autocomplete-list');
+
+  ruaInput.addEventListener('input', function() {
+    clearTimeout(autocompleteTimer);
+    var q = ruaInput.value.trim();
+    autocompleteList.innerHTML = '';
+    autocompleteList.style.display = 'none';
+    if (q.length < 5) return;
+    autocompleteTimer = setTimeout(function() {
+      fetch('https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&countrycodes=br&limit=5&q=' + encodeURIComponent(q), {
+        headers: { 'Accept-Language': 'pt-BR' }
+      })
+        .then(function(r) { return r.json(); })
+        .then(function(results) {
+          autocompleteList.innerHTML = '';
+          if (!results.length) { autocompleteList.style.display = 'none'; return; }
+          results.forEach(function(item) {
+            var li = document.createElement('li');
+            li.className = 'autocomplete-item';
+            li.textContent = item.display_name;
+            li.addEventListener('mousedown', function(e) {
+              e.preventDefault();
+              var addr = item.address;
+              ruaInput.value = (addr.road || addr.pedestrian || addr.footway || item.display_name.split(',')[0]).trim();
+              if (addr.suburb || addr.neighbourhood || addr.quarter) {
+                var bairroEl = document.getElementById('bairro');
+                bairroEl.removeAttribute('readonly');
+                bairroEl.value = (addr.suburb || addr.neighbourhood || addr.quarter || '').trim();
+                bairroEl.setAttribute('readonly', true);
+              }
+              if (addr.postcode) {
+                var cepFormatado = addr.postcode.replace(/\D/g, '');
+                if (cepFormatado.length === 8) {
+                  document.getElementById('cep').value = cepFormatado.slice(0,5) + '-' + cepFormatado.slice(5);
+                }
+              }
+              autocompleteList.innerHTML = '';
+              autocompleteList.style.display = 'none';
+              document.getElementById('numero').focus();
+            });
+            autocompleteList.appendChild(li);
+          });
+          autocompleteList.style.display = 'block';
+        })
+        .catch(function() { autocompleteList.style.display = 'none'; });
+    }, 500);
+  });
+
+  ruaInput.addEventListener('blur', function() {
+    setTimeout(function() {
+      autocompleteList.innerHTML = '';
+      autocompleteList.style.display = 'none';
+    }, 150);
+  });
+
   /* Máscara Celular: (99) 9 9999-9999 ou (99) 9999-9999 */
   var telInput = document.getElementById('tel');
   telInput.addEventListener('input', function(e) {
@@ -279,4 +337,3 @@ window.addEventListener('DOMContentLoaded', function() {
   loadSignatures();
   renderSheet();
 });
-
