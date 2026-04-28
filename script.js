@@ -203,6 +203,9 @@ function handleSign() {
     ok = false;
   }
 
+  var complemento = normalizeSpaces(document.getElementById('complemento').value);
+  if (!complemento || complemento.length < 3) { showError('complemento','erroComplemento'); ok = false; }
+
   var bairro = normalizeSpaces(document.getElementById('bairro').value);
   if (!validateBairro(bairro)) { showError('bairro','erroBairro'); ok = false; }
 
@@ -217,16 +220,17 @@ function handleSign() {
   document.getElementById('cep').value = cep;
   document.getElementById('bairro').value = bairro;
 
-  var complemento = document.getElementById('complemento').value.trim();
   var bairroVal = bairro;
   var endereco = rua + ', ' + numero + (complemento ? ' - ' + complemento : '') + ', ' + bairroVal + ' — CEP ' + cep;
 
-  /* ── Envia para Google Planilhas ── */
-  fetch(SCRIPT_URL, {
+  /* Compatibilidade: envia os mesmos dados por query + corpo JSON (text/plain) */
+  var payload = { nome: nome, tel: tel, mail: mail, endereco: endereco };
+  var query = new URLSearchParams(payload).toString();
+  fetch(SCRIPT_URL + '?' + query, {
     method: 'POST',
     mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ nome: nome, tel: tel, mail: mail, endereco: endereco })
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
   }).catch(function(err) { console.warn('Erro ao enviar para planilha:', err); });
 
   var agora = new Date();
@@ -275,3 +279,4 @@ window.addEventListener('DOMContentLoaded', function() {
   loadSignatures();
   renderSheet();
 });
+
