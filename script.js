@@ -1,6 +1,6 @@
 const GOAL = 10000;
 const STORAGE_KEY = 'assinaturasFelipeBarros';
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZLQBNgDGeviVyK3Vne7t8YemE8wjAy9WM-WoZQoxa_5r8WrxGBT85uoRyrACrbaDv5Q/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwDIw96tQJr9P_HArlIlXOt_yS9iY1W5uHfbbbAq0rsJul6yL8NklN28viqiKDcFHVrRg/exec';
 let signatures = [];
 let displayedCount = 0;
 
@@ -337,3 +337,4 @@ window.addEventListener('DOMContentLoaded', function() {
   loadSignatures();
   renderSheet();
 });
+
